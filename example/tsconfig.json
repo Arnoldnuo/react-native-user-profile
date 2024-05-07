@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "react-native-user-profile": ["../src/index"],
+      "react-native-user-profile/*": ["../src/*"]
+    }
+  }
+}
