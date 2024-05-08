@@ -106,7 +106,7 @@ const UserProfileEditor = (props: UserProfileEditorProps) => {
   };
 
   const showAvatorEditor = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true, quality: 1 });
+    const result = await ImagePicker.launchImageLibraryAsync({ allowsEditing: true, quality: 0.1 });
     if (result.canceled) return;
     setAvatarToastVisible(true);
     const avatarFile = result.assets[0].uri;
