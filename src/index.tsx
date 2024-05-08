@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
+import * as ImagePicker from 'expo-image-picker';
 import { useRef, useState } from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
 import { Text, View, Card, Avatar, Modal, ActionBar, TextField, TouchableOpacity, Incubator } from 'react-native-ui-lib';
-import * as ImagePicker from 'expo-image-picker';
-global.navigator = { userAgent: '' };
-import { uploadAvatar, uploadAvatarToCos } from './cos';
+
+import { uploadAvatarToCos } from './cos';
 
 interface UserProfileProps {
   rightIcon: any,
