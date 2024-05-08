@@ -164,7 +164,7 @@ const UserProfileEditor = (props: UserProfileEditorProps) => {
       />
       <ActionBar style={{ height: 'auto' }} keepRelative actions={[
         { label: '取消', onPress: hideEditor },
-        { label: '保存', onPress: saveEditorResult }
+        { label: '保存', onPress: saveEditorResult, disabled: text.trim().length < 2 && editorTypeRef.current === EditorType.nickname }
       ]} />
       <View paddingH-20 paddingT-8>
         <TextField

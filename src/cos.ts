@@ -47,7 +47,8 @@ export const uploadAvatarToCos = async (options: UploadAvatarOptions) => {
           console.log('auth-api cos Request error:', error);
         }
       })();
-    }
+    },
+    Protocol: 'https:'
   });
   try {
     const result = await cosClient.putObject({
