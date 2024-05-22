@@ -2,7 +2,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import { useRef, useState } from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
-import { Text, View, Card, Avatar, Modal, ActionBar, TextField, TouchableOpacity, Incubator } from 'react-native-ui-lib';
+import { Text, View, Card, Avatar, Modal, ActionBar, TextField, TouchableOpacity, Incubator, Button } from 'react-native-ui-lib';
 
 import { uploadAvatarToCos } from './cos';
 
@@ -22,11 +22,13 @@ interface UserProfileEditorProps {
   onNicknameSave?: any,
   onBiographySave?: any,
   onAvatarSave?: any,
+  onLogout?: any,
   update_url?: string,
   jwt?: string,
   cosTmpCredential_url?: string,
   avatar_bucket?: string,
   avatar_region?: string,
+  containerStyle?: ViewStyle
 }
 
 const UserProfile = (props: UserProfileProps) => {
@@ -53,7 +55,7 @@ enum EditorType {
 }
 
 const UserProfileEditor = (props: UserProfileEditorProps) => {
-  const { rightIcon, nickname, biography, avatar_url, onBiographySave, onNicknameSave, onAvatarSave, update_url, jwt, cosTmpCredential_url, avatar_bucket, avatar_region } = props;
+  const { rightIcon, nickname, biography, avatar_url, onBiographySave, onNicknameSave, onAvatarSave, onLogout, update_url, jwt, cosTmpCredential_url, avatar_bucket, avatar_region, containerStyle } = props;
   const [editorVisible, setEditorVisible] = useState(false);
   const [text, setText] = useState('');
   const [placeholder, setPlaceholder] = useState('');
@@ -126,26 +128,29 @@ const UserProfileEditor = (props: UserProfileEditorProps) => {
     setAvatarToastVisible(false);
   };
 
-  return <View>
-    <TouchableOpacity style={$RowItem} onPress={showAvatorEditor}>
-      <View><Text text70R>头像</Text></View>
-      <View flexG right marginR-10>
-        <Avatar source={{ uri: avatar_url }} />
-      </View>
-      <View>{rightIcon}</View>
-    </TouchableOpacity>
-    <TouchableOpacity style={$RowItem} onPress={showNicknameEditor}>
-      <View><Text text70R>昵称</Text></View>
-      <View flexG right marginR-10><Text text70L>{nickname}</Text></View>
-      <View>{rightIcon}</View>
-    </TouchableOpacity>
-    <TouchableOpacity style={[$RowItem, { borderBottomWidth: 0 }]}
-      onPress={showBiographyEditor}>
-      <View><Text text70R>个人简介</Text></View>
-      <View style={{ flexGrow: 1, flexShrink: 1 }} right marginR-10>
-        <Text text70L>{biography}</Text></View>
-      <View>{rightIcon}</View>
-    </TouchableOpacity>
+  return <View style={[{ flex: 1 }, containerStyle]}>
+    <View style={{ flex: 1 }}>
+      <TouchableOpacity style={$RowItem} onPress={showAvatorEditor}>
+        <View><Text text70R>头像</Text></View>
+        <View flexG right marginR-10>
+          <Avatar source={{ uri: avatar_url }} />
+        </View>
+        <View>{rightIcon}</View>
+      </TouchableOpacity>
+      <TouchableOpacity style={$RowItem} onPress={showNicknameEditor}>
+        <View><Text text70R>昵称</Text></View>
+        <View flexG right marginR-10><Text text70L>{nickname}</Text></View>
+        <View>{rightIcon}</View>
+      </TouchableOpacity>
+      <TouchableOpacity style={[$RowItem, { borderBottomWidth: 0 }]}
+        onPress={showBiographyEditor}>
+        <View><Text text70R>个人简介</Text></View>
+        <View style={{ flexGrow: 1, flexShrink: 1 }} right marginR-10>
+          <Text text70L>{biography}</Text></View>
+        <View>{rightIcon}</View>
+      </TouchableOpacity>
+    </View>
+    <Button link label='退出登录' onPress={onLogout} style={{}} />
     <Incubator.Toast
       visible={avatarToastVisible}
       position='top'

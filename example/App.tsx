@@ -23,20 +23,23 @@ export default function App() {
               avatar_url={avatar_url}
             />
           </View>
-          <UserProfileEditor
-            rightIcon={<AntDesign name="right" size={12} color="gray" />}
-            nickname='小李'
-            biography='你好啊啊啊啊啊啊啊啊啊啊'
-            avatar_url={avatar_url}
-            onNicknameSave={(nickname: string) => { console.log('nickname', nickname) }}
-            onBiographySave={(biography: string) => { console.log('biography', biography) }}
-            onAvatarSave={(avatarFile: string) => { console.log('avatar', avatarFile) }}
-            update_url={update_url}
-            jwt={jwt}
-            cosTmpCredential_url={cosTmpCredential_url}
-            avatar_bucket={avatar_bucket}
-            avatar_region={avatar_region}
-          />
+          <View style={{ height: 300 }}>
+            <UserProfileEditor
+              rightIcon={<AntDesign name="right" size={12} color="gray" />}
+              nickname='小李'
+              biography='你好啊啊啊啊啊啊啊啊啊啊'
+              avatar_url={avatar_url}
+              onNicknameSave={(nickname: string) => { console.log('nickname', nickname) }}
+              onBiographySave={(biography: string) => { console.log('biography', biography) }}
+              onAvatarSave={(avatarFile: string) => { console.log('avatar', avatarFile) }}
+              onLogout={() => { console.log('logout') }}
+              update_url={update_url}
+              jwt={jwt}
+              cosTmpCredential_url={cosTmpCredential_url}
+              avatar_bucket={avatar_bucket}
+              avatar_region={avatar_region}
+            />
+          </View>
         </View>
       </GestureHandlerRootView>
     </SafeAreaProvider>
