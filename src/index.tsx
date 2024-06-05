@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import * as ImagePicker from 'expo-image-picker';
 import { useRef, useState } from 'react';
-import { StyleSheet, ViewStyle } from 'react-native';
+import { Alert, StyleSheet, ViewStyle } from 'react-native';
 import { Text, View, Card, Avatar, Modal, ActionBar, TextField, TouchableOpacity, Incubator, Button } from 'react-native-ui-lib';
 
 import { uploadAvatarToCos } from './cos';
@@ -28,7 +28,19 @@ interface UserProfileEditorProps {
   cosTmpCredential_url?: string,
   avatar_bucket?: string,
   avatar_region?: string,
-  containerStyle?: ViewStyle
+  containerStyle?: ViewStyle,
+  onEnterAccountSecurityScreen?: any
+}
+
+interface UserAccountSecurityProps {
+  rightIcon: any,
+  containerStyle?: ViewStyle,
+  onEnterAccountDeletionScreen?: any
+}
+
+interface UserAccountDeletionProps {
+  nickname: string,
+  onAccountDeletion: any,
 }
 
 const UserProfile = (props: UserProfileProps) => {
@@ -55,7 +67,7 @@ enum EditorType {
 }
 
 const UserProfileEditor = (props: UserProfileEditorProps) => {
-  const { rightIcon, nickname, biography, avatar_url, onBiographySave, onNicknameSave, onAvatarSave, onLogout, update_url, jwt, cosTmpCredential_url, avatar_bucket, avatar_region, containerStyle } = props;
+  const { rightIcon, nickname, biography, avatar_url, onBiographySave, onNicknameSave, onAvatarSave, onLogout, update_url, jwt, cosTmpCredential_url, avatar_bucket, avatar_region, containerStyle, onEnterAccountSecurityScreen } = props;
   const [editorVisible, setEditorVisible] = useState(false);
   const [text, setText] = useState('');
   const [placeholder, setPlaceholder] = useState('');
@@ -142,11 +154,17 @@ const UserProfileEditor = (props: UserProfileEditorProps) => {
         <View flexG right marginR-10><Text text70L>{nickname}</Text></View>
         <View>{rightIcon}</View>
       </TouchableOpacity>
-      <TouchableOpacity style={[$RowItem, { borderBottomWidth: 0 }]}
+      <TouchableOpacity style={$RowItem}
         onPress={showBiographyEditor}>
         <View><Text text70R>个人简介</Text></View>
         <View style={{ flexGrow: 1, flexShrink: 1 }} right marginR-10>
           <Text text70L>{biography}</Text></View>
+        <View>{rightIcon}</View>
+      </TouchableOpacity>
+      <TouchableOpacity style={[$RowItem, { borderBottomWidth: 0 }]}
+        onPress={onEnterAccountSecurityScreen}>
+        <View><Text text70R>账号与安全</Text></View>
+        <View flexG right marginR-10 />
         <View>{rightIcon}</View>
       </TouchableOpacity>
     </View>
@@ -186,7 +204,33 @@ const UserProfileEditor = (props: UserProfileEditorProps) => {
   </View>;
 };
 
-export { UserProfile, UserProfileEditor };
+const UserAccountSecurity = (props: UserAccountSecurityProps) => {
+  const { rightIcon, containerStyle, onEnterAccountDeletionScreen } = props;
+  return <View style={[{ flex: 1 }, containerStyle]}>
+    <View style={{ flex: 1 }}>
+      <TouchableOpacity style={$RowItem} onPress={onEnterAccountDeletionScreen}>
+        <View><Text text70R>账号删除</Text></View>
+        <View flexG right marginR-10 />
+        <View>{rightIcon}</View>
+      </TouchableOpacity>
+    </View>
+  </View>;
+};
+
+const UserAccountDeletion = (props: UserAccountDeletionProps) => {
+  const { nickname, onAccountDeletion } = props;
+  const onDeletionBtnPress = () => {
+    Alert.alert(`确定要注销账号"${nickname}"吗？`, '账号注销后将无法恢复，请谨慎操作。', [
+      { text: '取消', style: 'cancel' },
+      { text: '确定', style: 'destructive', onPress: onAccountDeletion }
+    ]);
+  };
+  return <View style={{ flex: 1 }}>
+    <Button label='注销账号' marginH-20 onPress={onDeletionBtnPress} />
+  </View>;
+}
+
+export { UserProfile, UserProfileEditor, UserAccountSecurity, UserAccountDeletion };
 const $RowItem: ViewStyle = {
   borderBottomWidth: StyleSheet.hairlineWidth, borderColor: '#c0c0c0',
   paddingVertical: 10,
